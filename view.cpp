@@ -52,8 +52,8 @@ void View::mousePressEvent(QMouseEvent *event)
          }
 
          /* Draw on original image */
-         QPen tPen = pen;
-         int tPenWidth = qRound(static_cast<float>(pen.width()) * xRatio);   // Scaling pen width
+         QPen tPen{ pen };
+         int tPenWidth{ qRound(static_cast<float>(pen.width()) * xRatio) };   // Scaling pen width
          tPen.setWidth(tPenWidth);
          painter.begin(&origPixmap);
          painter.setPen(tPen);
@@ -129,12 +129,12 @@ void View::mouseReleaseEvent(QMouseEvent *event)
     /* Draw on original image given the scale */
     QPainter painter;
     QPixmap tPixmap = origPixmap;
-    QPen tPen = pen;
-    int tPenWidth = qRound(static_cast<float>(pen.width()) * xRatio);
-    int tX = qRound(static_cast<float>(x) * xRatio),
-        tY = qRound(static_cast<float>(y) * yRatio),
-        tCurX = qRound(static_cast<float>(curX) * xRatio),
-        tCurY = qRound(static_cast<float>(curY) * yRatio);
+    QPen tPen{ pen };
+    int tPenWidth{ qRound(static_cast<float>(pen.width()) * xRatio) };
+    int tX{ qRound(static_cast<float>(x) * xRatio) },
+        tY{ qRound(static_cast<float>(y) * yRatio) },
+        tCurX{ qRound(static_cast<float>(curX) * xRatio) },
+        tCurY{ qRound(static_cast<float>(curY) * yRatio) };
     tPen.setWidth(tPenWidth);
     painter.begin(&tPixmap);
     painter.setPen(tPen);
