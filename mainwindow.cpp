@@ -8,12 +8,12 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->curDrawModeView->setText(lineChosenMsg);
-    view = new View(defaultMWSize);
+    view = new View{defaultMWSize};
     ui->viewLayout->addWidget(new QLabel);  // For left padding
     ui->viewLayout->addWidget(view);
     ui->viewLayout->addWidget(new QLabel);  // For right padding
 
-    penColorDialog = new QColorDialog(this);
+    penColorDialog = new QColorDialog{this};
     connect(penColorDialog, &QColorDialog::colorSelected, this, &MainWindow::on_penColorDialog_selected);
 
     view->getBrush().setColor(QColor(Qt::white));
@@ -44,9 +44,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
         msg.setWindowTitle(unsafeTitleMsg);
         msg.setIcon(QMessageBox::Question);
         msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        int answer = msg.exec();
 
-        if(answer == QMessageBox::Yes)
+        if(msg.exec() == QMessageBox::Yes)
         {
             on_actionSafe_triggered();
         }
@@ -167,8 +166,6 @@ void MainWindow::on_typeBrushBox_activated(int index)
 
 void MainWindow::on_actionOpen_triggered()
 {
-    QString tmpFileName;
-
     if(view->isFileChange())    // Confirm saving
     {
         QMessageBox msg;
@@ -176,15 +173,14 @@ void MainWindow::on_actionOpen_triggered()
         msg.setWindowTitle(unsafeTitleMsg);
         msg.setIcon(QMessageBox::Question);
         msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        int answer = msg.exec();
 
-        if(answer == QMessageBox::Yes)
+        if(msg.exec() == QMessageBox::Yes)
         {
             on_actionSafe_triggered();
         }
     }
 
-    tmpFileName = QFileDialog::getOpenFileName(this, "Choose image", "", "JPEG (*.jpg);; PNG (*.png)");
+    QString tmpFileName{ QFileDialog::getOpenFileName(this, "Choose image", "", "JPEG (*.jpg);; PNG (*.png)") };
 
     if(!tmpFileName.isEmpty())
     {
@@ -219,7 +215,7 @@ void MainWindow::on_actionSafe_triggered()
         if(fileNameImg.isEmpty())
             return;
 
-        QString fileSuffix = fileNameImg.split(".").last().toLower();
+        QString fileSuffix{ fileNameImg.split(".").last().toLower() };
         if(fileSuffix != "jpg" && fileSuffix != "png")   // If user didn't enter type, add it automatically
             fileNameImg += ".png";
     }
